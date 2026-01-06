@@ -31,34 +31,70 @@ class Question {
 // ------------------ Survey Data ------------------
 final Map<String, List<Question>> surveys = {
   'General Knowledge Survey': [
-    Question(
-      text: 'What is the capital of Turkey?',
-      options: ['Istanbul', 'Ankara', 'Izmir'],
-      correctIndex: 1,
-      explanation: 'The capital of Turkey is Ankara.',
-    ),
-    Question(
-      text: 'Which is the largest planet in the solar system?',
-      options: ['Jupiter', 'Saturn'],
-      correctIndex: 0,
-      explanation: 'Jupiter is the largest planet.',
-    ),
+    Question(text: 'Question 1', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 2', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 3', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 4', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 5', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 6', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 7', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 8', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 9', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 10', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 11', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 12', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 13', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 14', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 15', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 16', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 17', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 18', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 19', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 20', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
   ],
   'Technology Survey': [
-    Question(
-      text: 'Which language does Flutter use?',
-      options: ['Dart', 'Java', 'Kotlin'],
-      correctIndex: 0,
-      explanation: 'Flutter apps are written in Dart.',
-    ),
+    Question(text: 'Question 1', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 2', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 3', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 4', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 5', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 6', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 7', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 8', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 9', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 10', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 11', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 12', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 13', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 14', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 15', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 16', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 17', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 18', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 19', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 20', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
   ],
   'Health Survey': [
-    Question(
-      text: 'How many hours of sleep are recommended per day?',
-      options: ['4-5', '7-9'],
-      correctIndex: 1,
-      explanation: '7-9 hours of sleep are recommended for adults.',
-    ),
+    Question(text: 'Question 1', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 2', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 3', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 4', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 5', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 6', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 7', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 8', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 9', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 10', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 11', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 12', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 13', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 14', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 15', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 16', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 17', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 18', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 19', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+    Question(text: 'Question 20', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
   ],
 };
 
@@ -73,6 +109,25 @@ class SurveyStorage {
       'email': email,
       'date': DateTime.now().toString(),
     });
+  }
+}
+
+// ------------------ Complaint Storage ------------------
+class Complaint {
+  final String name;
+  final String type;
+  final String email;
+  final String comments;
+  final String date;
+
+  Complaint({required this.name, required this.type, required this.email, required this.comments, required this.date});
+}
+
+class ComplaintStorage {
+  static final List<Complaint> complaints = [];
+
+  static void saveComplaint(String name, String type, String email, String comments) {
+    complaints.add(Complaint(name: name, type: type, email: email, comments: comments, date: DateTime.now().toString()));
   }
 }
 
@@ -226,10 +281,20 @@ class _QuizPageState extends State<QuizPage> {
           currentIndex++;
           selectedOption = answers[currentIndex];
         } else {
+          // Calculate score
+          int correct = 0;
+          for (int i = 0; i < questions.length; i++) {
+            if (answers[i] != null && answers[i] == questions[i].correctIndex) correct++;
+          }
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => SurveyCompletePage(surveyTitle: widget.surveyTitle),
+              builder: (_) => ResultPage(
+                surveyTitle: widget.surveyTitle,
+                correctCount: correct,
+                total: questions.length,
+              ),
             ),
           );
         }
@@ -405,21 +470,107 @@ class _SurveyCompletePageState extends State<SurveyCompletePage> {
 }
 
 // ------------------ Complaint Page ------------------
-class ComplaintPage extends StatelessWidget {
+class ComplaintPage extends StatefulWidget {
+  @override
+  _ComplaintPageState createState() => _ComplaintPageState();
+}
+
+class _ComplaintPageState extends State<ComplaintPage> {
+  final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _email = '';
+  String _type = '';
+  String _comments = '';
+
+  final List<String> _types = [
+    'App',
+    'Questions',
+    'Technical',
+    'Content',
+    'Payments',
+    'Other',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _type = _types.first;
+  }
+
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
+    _formKey.currentState!.save();
+
+    ComplaintStorage.saveComplaint(_name, _type, _email, _comments);
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Submitted'),
+        content: Text('Your complaint has been submitted.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Complaint')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(12),
-        child: Column(
-          children: [
-            Text('Write your complaint:'),
-            SizedBox(height: 12),
-            TextField(maxLines: 6, decoration: InputDecoration(border: OutlineInputBorder())),
-            SizedBox(height: 12),
-            ElevatedButton(onPressed: () => Navigator.pop(context), child: Text('Send')),
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Submit a complaint', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              SizedBox(height: 12),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Name'),
+                validator: (v) => v == null || v.isEmpty ? 'Name required' : null,
+                onSaved: (v) => _name = v!.trim(),
+              ),
+              SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Complaint Type'),
+                value: _type,
+                items: _types.map((t) => DropdownMenuItem(value: t, child: Text(t))).toList(),
+                onChanged: (v) => setState(() => _type = v ?? _types.first),
+                onSaved: (v) => _type = v ?? _types.first,
+              ),
+              SizedBox(height: 12),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Email'),
+                validator: (v) => v == null || v.isEmpty ? 'Email required' : null,
+                onSaved: (v) => _email = v!.trim(),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              SizedBox(height: 12),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Additional Comments'),
+                maxLines: 5,
+                onSaved: (v) => _comments = v?.trim() ?? '',
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(onPressed: () => Navigator.pop(context), child: Text('Cancel')),
+                  SizedBox(width: 8),
+                  ElevatedButton(onPressed: _submit, child: Text('Submit')),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -456,6 +607,68 @@ class ContactPage extends StatelessWidget {
             ),
 
             ElevatedButton(onPressed: () => Navigator.pop(context), child: Text('Back')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ------------------ Result Page ------------------
+class ResultPage extends StatelessWidget {
+  final String surveyTitle;
+  final int correctCount;
+  final int total;
+
+  ResultPage({required this.surveyTitle, required this.correctCount, required this.total});
+
+  String _selectMessage(double percent) {
+    if (percent == 100) return 'Message 1';
+    if (percent >= 90) return 'Message 2';
+    if (percent >= 80) return 'Message 3';
+    if (percent >= 70) return 'Message 4';
+    if (percent >= 60) return 'Message 5';
+    if (percent >= 50) return 'Message 6';
+    if (percent >= 40) return 'Message 7';
+    if (percent >= 30) return 'Message 8';
+    if (percent >= 20) return 'Message 9';
+    if (percent >= 10) return 'Message 10';
+    return 'Message 11';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final percent = (correctCount / total) * 100.0;
+    final message = _selectMessage(percent);
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Result')),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(surveyTitle, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+            SizedBox(height: 24),
+            Text('${percent.toStringAsFixed(1)}% correct', style: TextStyle(fontSize: 32), textAlign: TextAlign.center),
+            SizedBox(height: 24),
+            Text(message, style: TextStyle(fontSize: 18), textAlign: TextAlign.center),
+            SizedBox(height: 36),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => SurveyCompletePage(surveyTitle: surveyTitle)),
+                );
+              },
+              child: Text('Continue to Completion Form'),
+            ),
+            SizedBox(height: 8),
+            OutlinedButton(
+              onPressed: () => Navigator.of(context).popUntil((r) => r.isFirst),
+              child: Text('Home'),
+            ),
           ],
         ),
       ),
