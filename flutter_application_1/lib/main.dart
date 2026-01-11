@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,27 +16,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// ------------------ Question Model ------------------
+// Simple model for questions
 class Question {
   final String text;
   final List<String> options;
   final int correctIndex;
   final String explanation;
 
-  Question({
-    required this.text,
-    required this.options,
-    required this.correctIndex,
-    required this.explanation,
-  });
+  Question({required this.text, required this.options, required this.correctIndex, this.explanation = ''});
 }
 
-// ------------------ Survey Data ------------------
 final Map<String, List<Question>> surveys = {
   'General Knowledge Survey': [
     Question(text: 'Question 1', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
     Question(text: 'Question 2', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
     Question(text: 'Question 3', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
+ 
     Question(text: 'Question 4', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
     Question(text: 'Question 5', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
     Question(text: 'Question 6', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
@@ -96,19 +94,18 @@ final Map<String, List<Question>> surveys = {
     Question(text: 'Question 19', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
     Question(text: 'Question 20', options: ['A', 'B', 'C'], correctIndex: 0, explanation: ''),
   ],
+  'Psychological Test': List.generate(10, (i) => Question(text: 'Item ${i+1}', options: [''], correctIndex: 0, explanation: '')),
 };
 
 // ------------------ Form Storage ------------------
 class SurveyStorage {
   static final List<Map<String, String>> savedForms = [];
 
-  static void saveForm(String surveyTitle, String name, String email) {
-    savedForms.add({
-      'survey': surveyTitle,
-      'name': name,
-      'email': email,
-      'date': DateTime.now().toString(),
-    });
+  // Save a full form data map. Expects keys like: survey, name, surname, age, nationality, gender, email, rating
+  static void saveForm(Map<String, String> data) {
+    final entry = Map<String, String>.from(data);
+    entry['date'] = DateTime.now().toString();
+    savedForms.add(entry);
   }
 }
 
@@ -132,40 +129,92 @@ class ComplaintStorage {
 }
 
 // ------------------ Home Page ------------------
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  late Animation<double> _shakeAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    _shakeAnim = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: -8.0), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: -8.0, end: 8.0), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: 8.0, end: -6.0), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: -6.0, end: 6.0), weight: 2),
+      TweenSequenceItem(tween: Tween(begin: 6.0, end: 0.0), weight: 1),
+    ]).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  void _onStartPressed() async {
+    if (_ctrl.isAnimating) return;
+
+    void listener(AnimationStatus status) {
+      if (status == AnimationStatus.completed) {
+        _ctrl.removeStatusListener(listener);
+        if (!mounted) return;
+        Navigator.push(context, MaterialPageRoute(builder: (_) => SurveySelectionPage()));
+      }
+    }
+
+    _ctrl.addStatusListener(listener);
+    _ctrl.forward(from: 0.0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Welcome to the App')),
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('Welcome to the Surveys!', style: TextStyle(fontSize: 22)),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => SurveySelectionPage()),
-                      );
-                    },
-                    child: Text('Start Survey'),
-                  ),
-                ],
+      body: Container(
+        color: Colors.lightBlue.shade50,
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Welcome to the Surveys!', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.blue[800])),
+                    SizedBox(height: 16),
+                    AnimatedBuilder(
+                      animation: _shakeAnim,
+                      builder: (context, child) {
+                        return Transform.translate(
+                          offset: Offset(_shakeAnim.value, 0),
+                          child: child,
+                        );
+                      },
+                      child: ElevatedButton(
+                        onPressed: _onStartPressed,
+                        style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
+                        child: Text('Start Survey'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
 
-          Container(
-            height: 60,
-            color: Colors.grey[300],
-            child: Center(child: Text('AD SPACE (Home Bottom)')),
-          ),
-        ],
+            Container(
+              height: 60,
+              color: Colors.grey[300],
+              child: Center(child: Text('AD SPACE (Home Bottom)')),
+            ),
+          ],
+        ),
       ),
 
       bottomNavigationBar: BottomNavigationBar(
@@ -187,34 +236,101 @@ class HomePage extends StatelessWidget {
 }
 
 // ------------------ Survey Selection Page ------------------
-class SurveySelectionPage extends StatelessWidget {
+class SurveySelectionPage extends StatefulWidget {
+  const SurveySelectionPage({Key? key}) : super(key: key);
+
+  @override
+  _SurveySelectionPageState createState() => _SurveySelectionPageState();
+}
+
+class _SurveySelectionPageState extends State<SurveySelectionPage> {
+  final assetNames = ['1.jpg', '2.jpg', '3.webp'];
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAssets();
+  }
+
+  void _checkAssets() async {
+    for (var i = 0; i < assetNames.length; i++) {
+      final asset = 'assets/ads/images/${assetNames[i]}';
+      try {
+        final data = await rootBundle.load(asset);
+        print('ASSET OK: $asset (${data.lengthInBytes} bytes)');
+      } catch (e) {
+        print('ASSET ERROR: $asset -> $e');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Survey Selection')),
-      body: ListView(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(12),
-        children: [
-          Text('Available Surveys', style: TextStyle(fontSize: 18)),
-          SizedBox(height: 8),
-          ...surveys.keys.map((title) => Card(
-                child: ListTile(
-                  title: Text(title),
-                  subtitle: Text('${surveys[title]!.length} questions'),
-                  trailing: ElevatedButton(
-                    onPressed: () {
+        child: Builder(builder: (context) {
+          final keys = surveys.keys.toList();
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: List.generate(keys.length, (i) {
+              final title = keys[i];
+              final asset = 'assets/ads/images/${assetNames.length > i ? assetNames[i] : '${i + 1}.jpg'}';
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 8),
+                  Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 8),
+                  GestureDetector(
+                    onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => QuizPage(surveyTitle: title),
-                        ),
+                        MaterialPageRoute(builder: (_) => QuizPage(surveyTitle: title)),
                       );
                     },
-                    child: Text('Start'),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            asset,
+                            width: double.infinity,
+                            height: 200,
+                            fit: BoxFit.cover,
+                            gaplessPlayback: true,
+                            errorBuilder: (c, e, s) {
+                              return Container(
+                                width: double.infinity,
+                                height: 200,
+                                color: Colors.grey[300],
+                                child: Center(child: Icon(Icons.broken_image, size: 48, color: Colors.grey[700])),
+                              );
+                            },
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 200,
+                            color: Colors.black.withOpacity(0.25),
+                          ),
+                          Positioned.fill(
+                            child: Center(
+                              child: Text('Go to Survey', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ))
-        ],
+                  SizedBox(height: 16),
+                ],
+              );
+            }),
+          );
+        }),
       ),
     );
   }
@@ -223,7 +339,7 @@ class SurveySelectionPage extends StatelessWidget {
 // ------------------ Quiz (Question Page) ------------------
 class QuizPage extends StatefulWidget {
   final String surveyTitle;
-  QuizPage({required this.surveyTitle});
+  const QuizPage({Key? key, required this.surveyTitle}) : super(key: key);
 
   @override
   _QuizPageState createState() => _QuizPageState();
@@ -234,12 +350,31 @@ class _QuizPageState extends State<QuizPage> {
   int currentIndex = 0;
   int? selectedOption;
   late List<int?> answers;
+  late bool isTextSurvey;
+  List<TextEditingController>? _seeControllers;
+  List<TextEditingController>? _feelControllers;
 
   @override
   void initState() {
     super.initState();
     questions = surveys[widget.surveyTitle]!;
     answers = List<int?>.filled(questions.length, null);
+    isTextSurvey = widget.surveyTitle == 'Psychological Test';
+    if (isTextSurvey) {
+      _seeControllers = List.generate(questions.length, (_) => TextEditingController());
+      _feelControllers = List.generate(questions.length, (_) => TextEditingController());
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_seeControllers != null) {
+      for (var c in _seeControllers!) c.dispose();
+    }
+    if (_feelControllers != null) {
+      for (var c in _feelControllers!) c.dispose();
+    }
+    super.dispose();
   }
 
   void _showFeedback(bool correct, String explanation) {
@@ -262,9 +397,51 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void _nextQuestion() {
+    if (isTextSurvey) {
+      final see = _seeControllers![currentIndex].text.trim();
+      final feel = _feelControllers![currentIndex].text.trim();
+      if (see.isEmpty || feel.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please answer both questions.')));
+        return;
+      }
+
+      if (currentIndex < questions.length - 1) {
+        setState(() => currentIndex++);
+      } else {
+        // final item: thank you dialog with options
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => AlertDialog(
+            title: Text('Thank you'),
+            content: Text('Thank you for participating in the survey.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).popUntil((r) => r.isFirst);
+                },
+                child: Text('Home'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => SurveyCompletePage(surveyTitle: widget.surveyTitle)),
+                  );
+                },
+                child: Text('Continue to Completion Form'),
+              ),
+            ],
+          ),
+        );
+      }
+      return;
+    }
+
     if (selectedOption == null) {
-        ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Please select an option.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please select an option.')));
       return;
     }
 
@@ -306,7 +483,7 @@ class _QuizPageState extends State<QuizPage> {
     if (currentIndex > 0) {
       setState(() {
         currentIndex--;
-        selectedOption = answers[currentIndex];
+        if (!isTextSurvey) selectedOption = answers[currentIndex];
       });
     } else {
       Navigator.pop(context);
@@ -336,21 +513,58 @@ class _QuizPageState extends State<QuizPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(q.text,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 12),
-                  ...List.generate(q.options.length, (i) {
-                    return Card(
-                      child: RadioListTile<int>(
-                        value: i,
-                        groupValue: selectedOption,
-                        title: Text(q.options[i]),
-                        onChanged: (v) {
-                          setState(() => selectedOption = v);
-                        },
+                  if (isTextSurvey) ...[
+                    // picture label
+                    Text('Picture number ${currentIndex + 1}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    SizedBox(height: 8),
+                    // show image for psychological test
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        'assets/ads/images/${currentIndex + 4}.jpg',
+                        width: double.infinity,
+                        height: 360,
+                        fit: BoxFit.cover,
+                        errorBuilder: (c, e, s) => Container(
+                          width: double.infinity,
+                          height: 360,
+                          color: Colors.grey[300],
+                          child: Center(child: Text('Image not found', style: TextStyle(color: Colors.black54))),
+                        ),
                       ),
-                    );
-                  }),
+                    ),
+                    SizedBox(height: 12),
+                    Text('What do you see in this picture?', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 8),
+                    TextField(
+                      controller: _seeControllers![currentIndex],
+                      maxLines: 3,
+                      decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Describe what you see'),
+                    ),
+                    SizedBox(height: 12),
+                    Text('How does this picture make you feel?', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 8),
+                    TextField(
+                      controller: _feelControllers![currentIndex],
+                      maxLines: 3,
+                      decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Describe your feelings'),
+                    ),
+                  ] else ...[
+                    Text(q.text, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 12),
+                    ...List.generate(q.options.length, (i) {
+                      return Card(
+                        child: RadioListTile<int>(
+                          value: i,
+                          groupValue: selectedOption,
+                          title: Text(q.options[i]),
+                          onChanged: (v) {
+                            setState(() => selectedOption = v);
+                          },
+                        ),
+                      );
+                    }),
+                  ],
                 ],
               ),
             ),
@@ -384,7 +598,7 @@ class _QuizPageState extends State<QuizPage> {
 // ------------------ Survey Completed + Form Page ------------------
 class SurveyCompletePage extends StatefulWidget {
   final String surveyTitle;
-  SurveyCompletePage({required this.surveyTitle});
+  const SurveyCompletePage({Key? key, required this.surveyTitle}) : super(key: key);
 
   @override
   _SurveyCompletePageState createState() => _SurveyCompletePageState();
@@ -393,7 +607,15 @@ class SurveyCompletePage extends StatefulWidget {
 class _SurveyCompletePageState extends State<SurveyCompletePage> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
+  String surname = '';
+  String age = '';
+  String nationality = '';
+  String gender = '';
   String email = '';
+  String rating = '5';
+
+  final List<String> _genders = ['Male', 'Female', 'Other', 'Prefer not to say'];
+  final List<String> _ratings = List.generate(10, (i) => '${i + 1}');
 
   @override
   Widget build(BuildContext context) {
@@ -412,20 +634,66 @@ class _SurveyCompletePageState extends State<SurveyCompletePage> {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(labelText: 'Name'),
-                    validator: (v) => v!.isEmpty ? 'Name required' : null,
-                    onSaved: (v) => name = v!,
+                    validator: (v) => v == null || v.isEmpty ? 'Name required' : null,
+                    onSaved: (v) => name = v!.trim(),
                   ),
+                  SizedBox(height: 8),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Surname'),
+                    validator: (v) => v == null || v.isEmpty ? 'Surname required' : null,
+                    onSaved: (v) => surname = v!.trim(),
+                  ),
+                  SizedBox(height: 8),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Age'),
+                    keyboardType: TextInputType.number,
+                    validator: (v) => v == null || v.isEmpty ? 'Age required' : null,
+                    onSaved: (v) => age = v!.trim(),
+                  ),
+                  SizedBox(height: 8),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Nationality'),
+                    validator: (v) => v == null || v.isEmpty ? 'Nationality required' : null,
+                    onSaved: (v) => nationality = v!.trim(),
+                  ),
+                  SizedBox(height: 8),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(labelText: 'Gender'),
+                    value: gender.isEmpty ? _genders.first : gender,
+                    items: _genders.map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
+                    onChanged: (v) => setState(() => gender = v ?? _genders.first),
+                    onSaved: (v) => gender = v ?? _genders.first,
+                  ),
+                  SizedBox(height: 8),
                   TextFormField(
                     decoration: InputDecoration(labelText: 'Email'),
-                    validator: (v) => v!.isEmpty ? 'Email required' : null,
-                    onSaved: (v) => email = v!,
+                    validator: (v) => v == null || v.isEmpty ? 'Email required' : null,
+                    onSaved: (v) => email = v!.trim(),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  SizedBox(height: 8),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(labelText: 'Rate this survey (1-10)'),
+                    value: rating,
+                    items: _ratings.map((r) => DropdownMenuItem(value: r, child: Text(r))).toList(),
+                    onChanged: (v) => setState(() => rating = v ?? '5'),
+                    onSaved: (v) => rating = v ?? '5',
                   ),
                   SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-                        SurveyStorage.saveForm(widget.surveyTitle, name, email);
+                        SurveyStorage.saveForm({
+                          'survey': widget.surveyTitle,
+                          'name': name,
+                          'surname': surname,
+                          'age': age,
+                          'nationality': nationality,
+                          'gender': gender,
+                          'email': email,
+                          'rating': rating,
+                        });
 
                         showDialog(
                           context: context,
@@ -471,6 +739,8 @@ class _SurveyCompletePageState extends State<SurveyCompletePage> {
 
 // ------------------ Complaint Page ------------------
 class ComplaintPage extends StatefulWidget {
+  const ComplaintPage({Key? key}) : super(key: key);
+
   @override
   _ComplaintPageState createState() => _ComplaintPageState();
 }
@@ -579,6 +849,8 @@ class _ComplaintPageState extends State<ComplaintPage> {
 
 // ------------------ Contact Page ------------------
 class ContactPage extends StatelessWidget {
+  const ContactPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -598,9 +870,11 @@ class ContactPage extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: SurveyStorage.savedForms.map((f) {
+                  final displayName = "${f['name'] ?? ''} ${f['surname'] ?? ''}".trim();
                   return ListTile(
-                    title: Text(f['name'] ?? ''),
+                    title: Text(displayName.isEmpty ? (f['name'] ?? '') : displayName),
                     subtitle: Text("${f['survey']} - ${f['date']!.substring(0, 19)}"),
+                    trailing: Text(f['rating'] ?? ''),
                   );
                 }).toList(),
               ),
@@ -620,8 +894,7 @@ class ResultPage extends StatelessWidget {
   final int correctCount;
   final int total;
 
-  ResultPage({required this.surveyTitle, required this.correctCount, required this.total});
-
+  const ResultPage({Key? key, required this.surveyTitle, required this.correctCount, required this.total}) : super(key: key);
   String _selectMessage(double percent) {
     if (percent == 100) return 'Message 1';
     if (percent >= 90) return 'Message 2';
