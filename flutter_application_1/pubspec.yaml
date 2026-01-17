@@ -34,6 +34,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  video_player: ^2.8.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,12 @@ flutter:
     - assets/ads/images/11.jpg
     - assets/ads/images/12.jpg
     - assets/ads/images/13.jpg
+    - assets/ads/images/ad1.jpg
+    - assets/ads/images/ad2.webp
+    - assets/ads/images/health.avif
+    - assets/ads/images/technology.jpg
+    - assets/ads/images/personality.webp
+    - assets/ads/videos/pegasus.mp4
 
   # To add assets to your application, add an assets section, like this:
   # assets:
